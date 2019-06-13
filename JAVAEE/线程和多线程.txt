@@ -1,0 +1,107 @@
+每个Java程序都有一个默认的主线程，当JVM加载代码发现main方法之后，就会立即启动
+一个线程这个线程称之为主线程（是产生其他子线程的线程，不一定是最后完成执行的线程）
+
+多线程优势：
+ -减轻编写交互频繁，涉及面多的程序的困难
+ -程序的吞吐量会得到改善
+ -由多个处理器的系统，可以并发运行不同的线程（否则，任何时刻只有一个线程在运行）
+ -”同时“执行是人的感觉，在线程之间实际上轮换执行
+
+一.线程和多线程
+	1）线程的状态：新建，就绪，运行，阻塞，死亡
+	2）Java中创建线程的方式（两种）
+	-------继承Thread类
+			class MyThread extends Thread{
+				run(){
+					/////////方法重写/////////
+				}
+			}
+			
+			public static void main(String[] args){
+				new MyThread().start();
+			}
+			
+			
+	-------实现Runnable接口
+			class MyRunnable implements Runnable{
+				run(){
+				/////////方法重写/////////
+				}
+			}
+			public static void main(String[] args){
+				new Thread(new MyRunnable()).start();
+			}
+	区别：
+	继承Thread类实现多线程
+		优点：编写简单，如果需要访问当前线程直接使用this即可获得当前线程.
+		缺点：因为线程类已经继承了Thread类，不能再继承其他的父类，不利于扩展性，不利于资源共享
+	实现Runnable接口
+		优点：线程类只实现了Runable接口，还可以继承其他的类. 这种方式可以多个线程共享同一个目标(target)对象，非常适合多个相同线程来处理同一份资源的情况，从而可以将代码和数据分开，形成清晰的模型，较好地体现了面向对象的思想
+		缺点：编程稍微复杂，需要访问当前线程，必须使用Thread.currentThread()方法
+	
+	3）线程同步 关键词：synchronized
+	
+	4)常用API
+		start()   sleep()   join()
+		setName()  getName()  stop()  isAlive()
+		Thread.currentThread()
+		
+	5)死锁等类型问题OS中有详细解读，在这里不过多赘余。
+------------------------------------------------------------------------------------------	
+最后，一个炒鸡简单的小栗子作结：
+	计数器，从1-100之间技术，每隔1秒计数一次:
+	
+	public class MyThread extends Thread{
+		public void run{
+			for(int i = 0, i<100 ;i++){
+				System.out.print(i);
+				try{
+					Thread.sleep(1000);
+					System.out.print(" 线程睡眠1000毫秒 \n");
+				}catch(InterruptedException e){
+					e.printStacktrace();
+				}
+			}
+		}
+	}
+	
+	public static void main(String[] args){
+		new MyThread().start();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+			
