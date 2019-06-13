@@ -1,2 +1,3 @@
 # LearningSummary
-I think I should summarize more often
+
+Life trivia and learning experience, cheer up!
