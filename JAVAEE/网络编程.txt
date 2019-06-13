@@ -1,0 +1,215 @@
+
+21      文件传输服务器(控制连接)(FTP)
+23      运程终端服务器(TELNET)
+25      简单邮件传输服务器(SMTP)
+80       万维网服务器(HTTP)
+ 网络编程开发模式：
+ -客户端/服务端模式（C/S）对于不同的服务器端程序建立不同的客户端程序
+ -浏览器/服务端模式（B/S）对于不同的服务器端程序使用统一的“客户端”（即浏览器）即可
+ 
+ 
+比较项	    TCP协议	                       UDP协议
+连接性	    网络双方需要建立连接	       不需要网络双方建立连接
+安全性	    完全可靠，确保数据可达	       不可靠，数据可能传输失败
+传输速度	无限制	                       数据包大小不越过64K
+传输方式	在连接的虚拟线路上传输	       在网络中传输
+
+
+
+ URI 是统一资源标识符，而 URL 是统一资源定位符。因此，笼统地说，每个 URL 都是 URI，但不一定每个 URI 都是 URL。这是因为 URI 还包括一个子类，即统一资源名称 (URN)，它命名资源但不指定如何定位资源。上面的 mailto、news 和 isbn URI 都是 URN 的示例。 
+URI 和 URL 概念上的不同反映在此类和 URL 类的不同中。
+
+
+			Java语言中，实现网络编程需要使用两个核心类包。
+			java.net.*：网络类包，涵盖常用网络操作类
+			java.io.*：数据消息传输包，在网络双方进行数据传递需要使用该包中的类
+
+			基于TCP网络编程：
+				 ----Socket编程：
+						--Socket类：客户端应用程序类
+						--ServerSocket类：服务器端应用程序类
+				 ----URL/URLConnection编程
+						--URL类：网络服务器端资源标识类
+						URLConnection:与服务器端资源建立连接
+						HttpURLConnection类：与服务器端资源建立HTTP连接
+				----HttpClient编程
+						--HttpClient类：建立HTTP连接，发送HTTP请求，获得HTTP相应
+						--HttpGet类：建立HTTP Get请求
+						--HttpPost类：建立HTTP Post请求
+						
+			基于UDP网络编程
+			----DatagramSocket类：发送或接受数据报文Socket类
+			----DatagramPacket类：数据报文类
+
+			辅助类
+			----InetAddress类：IP地址和网络域名处理类
+	
+
+	
+	
+		
+
+二：网络编程
+
+URLConnection类
+		url = new URL("http://");
+		// 打开连接
+		URLConnection conn = url.openConnection();
+		// 得到输入流
+		InputStream is = conn.getInputStream();
+		// 关于IO流的用法和写法一定要熟悉
+		OutputStream os = new FileOutputStream("d:\\baidu.png");
+
+		byte[] buffer = new byte[2048];
+		int length = 0;
+
+		while (-1 != (length = is.read(buffer, 0, buffer.length))) {
+			os.write(buffer, 0, length);
+		}
+		is.close();
+		os.close();
+
+
+URL网络编程实例：文件下载
+		String sUrl = "http://pic42.nipic.com/20140608/12504116_194242259000_2.jpg";
+		URL url = new URL(sUrl);	// 创建URL对象
+		InputStream in = url.openStream();	// 获得网络输入流
+		// 创建文件输出流
+		FileOutputStream out = new FileOutputStream(“cat.jpg");
+		int b;
+		while ((b = in.read()) != -1) {
+			out.write(b);		// 写入文件
+		}
+		// 关闭输入输出流
+		out.close();    
+		in.close();
+
+
+
+
+
+基于套接字的Java网络编程
+	多线程实现方法
+	客户端：
+				package test.ch2;
+
+				import java.io.IOException;
+				import java.io.InputStream;
+				import java.io.OutputStream;
+				import java.net.Socket;
+				import java.util.Scanner;
+
+				public class ClientThread {
+
+					public static void main(String[] args) {
+						try {
+							Socket client = new Socket("localhost", 8888);
+							InputStream in = client.getInputStream();
+							OutputStream out = client.getOutputStream();
+							Scanner scanner = new Scanner(System.in);
+							String msg = scanner.nextLine();
+							out.write(msg.getBytes());
+							
+							byte[] reve = new byte[255];
+							in.read(reve);
+							System.out.println("收到回复:" + new String(reve));
+							
+							in.close();
+							out.close();
+							client.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}
+	服务端（多线程实现方法）
+						package test.ch2;
+
+					import java.io.IOException;
+					import java.io.InputStream;
+					import java.io.OutputStream;
+					import java.net.ServerSocket;
+					import java.net.Socket;
+
+					public class ServerSocketThread {
+
+						public static void main(String[] args) {
+							try {
+								ServerSocket server = new ServerSocket(8888);
+								System.out.println("监听端口");
+								while(true) {
+									Socket client = server.accept();
+									System.out.println("收到客户端连接");
+									new Thread(new Runnable() {
+										
+										@Override
+										public void run() {
+											try {
+												InputStream in = client.getInputStream();
+												OutputStream out = client.getOutputStream();
+												//接收
+												byte[] msg = new byte[255];
+												in.read(msg);
+												System.out.println("收到消息：" + new String(msg));
+												
+												//发送
+												out.write("已收到消息".getBytes());
+												out.flush();
+												in.close();
+												out.close();
+												client.close();
+											} catch (IOException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+										}
+									}).start();
+								}
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+					}
+
+	
+
+	
+
+
+UDP网络编程实例
+	客户端程序：
+			// 创建DatagramSocket对象
+			DatagramSocket client = new DatagramSocket();
+			// 准备请求数据
+			byte[] buf = “客户端请求数据".getBytes();
+			InetAddress address = InetAddress.getLocalHost();
+			// 创建DatagramPacket对象
+			DatagramPacket request = 
+				new DatagramPacket(buf, buf.length, address , 8888);
+			// 发送请求
+			client.send(request);
+	服务器端
+		// 创建DatagramSocket对象，监听特定端口
+		DatagramSocket server = new DatagramSocket(8888);
+		// 准备空缓冲区
+		byte[] buf = new byte[1024];
+		// 循环等待客户端请求
+		while (true) {
+			// 创建DatagramPacket对象
+			DatagramPacket request = new DatagramPacket(buf, buf.length);
+			// 接收客户端请求
+			server.receive(request);
+			// 准备服务器端响应数据包
+			byte[] resBuf = "from server: ".getBytes();
+			DatagramPacket response = new DatagramPacket(
+				resBuf, resBuf.length, request.getAddress(), request.getPort());
+			// 发送服务器响应
+			server.send(response);
+		}
+
+	
+	
