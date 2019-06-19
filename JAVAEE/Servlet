@@ -1,0 +1,16 @@
+<servlet>
+  <servlet-name>Hello</servlet-name>
+  <servlet-class>xx.xx.Hello</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>Hello</servlet-name>
+  <url-pattern>/hello</url-pattern>
+</servlet-mapping>
+
+先通过/hello 找到<servlet-mapping>中 Hello 再找到和它名字一样的<servlet> Hello，从而找到资源xx.xx.Hello
+
+
+
+
+
