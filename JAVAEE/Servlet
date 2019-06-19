@@ -32,6 +32,28 @@ Attribute
   setAttibute():设置参数    request.setAttribute("attr","attribute");
   getAttibute() :获取某个参数的值  request.getAttribute("attr");
 
+request.setCharacterEncoding("utf-8");
+response.setContentType("text/html;charset=utf-8");
+
+PrintWriter  writer = response.getWriter();
+writer.write("内容");
+
+
+
+请求转发:
+request.getRequestDispatcher("targetURL").forward(request,response);
+请求重定向
+response.sendRedirect("targetURL");
+本质
+  请求重定向：二次请求
+  请求转发：一次请求
+速度
+  请求转发 >请求重定向
+Attribute参数
+  请求转发可共享参数
+  请求重定向不可共享参数
+
+
 
 
 
