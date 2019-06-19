@@ -1,14 +1,48 @@
 <servlet>
-  <servlet-name>Hello</servlet-name>
-  <servlet-class>xx.xx.Hello</servlet-class>
+  <servlet-name>Hello</servlet-name>  --别名
+  <servlet-class>xx.xx.Hello</servlet-class> --Servlet类文件
 </servlet>
 
 <servlet-mapping>
   <servlet-name>Hello</servlet-name>
-  <url-pattern>/hello</url-pattern>
+  <url-pattern>/hello</url-pattern>  --虚拟路径
 </servlet-mapping>
-
+http://localhost:8080/MyWebsite/hello
 先通过/hello 找到<servlet-mapping>中 Hello 再找到和它名字一样的<servlet> Hello，从而找到资源xx.xx.Hello
+
+
+
+
+<url-pattern>标签的匹配方式
+-----完整URL /HelloServlet
+-----/目录/* 方式，以/目录作为开头的URL
+-----/*.ext 以.ext结尾的地址
+
+
+
+getParameter()方法
+***href="RegistServlet?userName=zs”
+****表单中name属性的获取
+    <form action = "hello">
+      <input type="text" name = "text" value="information">
+      <input type= "submit" value = "submit">
+    </form>
+    
+Attribute
+  setAttibute():设置参数    request.setAttribute("attr","attribute");
+  getAttibute() :获取某个参数的值  request.getAttribute("attr");
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
