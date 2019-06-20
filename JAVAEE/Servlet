@@ -62,6 +62,68 @@ Servlet什么时候实例化
 当值为0或者大于0时，表示容器在应用启动时就加载这个servlet，当是一个负数时或者没有指定时，指示该servlet被选择时才加载。
 
 
+Servlet对init方法的调用
+config.getInitParameter(Param)可取得web.xml中的参数
+ServletConfig包含Web程序部署描述符(web.xml)中定义的参数
+ServletConfig是由Servlet容器实例化
+Servlet实例化的同时实例化对应的ServletConfig对象，并传入到init(ServletConfig config)
+      <servlet>
+        <servlet-name>Hello</servlet-name>  --别名
+        <servlet-class>xx.xx.Hello</servlet-class> --Servlet类文件
+        <init-param>
+            <param-name>name</param-name>
+            <param-value>gw</param-value>
+        </init-param>
+      </servlet>
+ServletConfig config = getServletConfig();
+String name = config.getInitParameter("name");
+
+
+
+
+
+
+Servlet生命周期四个阶段
+-----加载和实例化：由Servlet容器完成
+-----初始化：实例化Servlet后会调用init方法
+-----处理客户请求：service方法（doGet或doPost）
+-----销毁：销毁之前会调用destroy方法
+
+每个Web应用启动后，Servlet容器都会创建唯一的一个ServletContext对象，该对象包含整个Web程序的信息
+在自己定义的Servlet中，可以通过getServletContext()方法获得ServletContext对象
+getServletContext()是在GenericServlet类中定义的
+示例：读取<context-param>内的数据
+<context-param>
+ <param-name>context</param-name>
+ <param-value>application</param-value>
+</context-param>
+ServletContext context = getServletContext();
+String app = context.getInitParameter("context");
+
+
+1. set/getAttribute()，应用于request与request之间（请求转发）
+2. getParameter()，应用于客户端页面与Servlet之间（参数来自于Html、JSP）
+3. getServletConfig(). getInitParameter(“param”)，应用于同一个Servlet对象
+4. getServletContext(). getInitParameter(“param”)，应用于整个Web应用范围
+
+
+
+
+web.xml与@WebServlet注解
+@webServlet(name = "***",urlPatterns="/first"
+,loadOnStartup = 1
+,initParams = {@webInitParam(name = "name",value="gw")}
+)
+
+
+
+
+
+
+
+
+
+
 
 
 
