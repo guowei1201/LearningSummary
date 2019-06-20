@@ -1,0 +1,32 @@
+监听器
+与ServletContext相关监听器
+与HttpSession相关监听器
+与ServletRequest相关监听器
+
+监听器是一个实现特定接口的普通Java程序,这个程序专门用于监听另一个Java对象的方法调用或属性改变，当被监听对象发生上述事件后，监听器某个方法立即被执行
+
+与ServletContext有关：
+Listener接口：ServletContextListener    Event类：ServlerContextEvent
+Listener接口：ServletContextAttributeListener     Event类：ServletContextAttributeEvent
+
+与HttpSession有关：
+Listener接口：HttpSessionListener    Event类：HttpSessionEvent
+Listener接口：HttpSessionAttributeListener    Event类：HttpSessionBindingEvent
+
+实现HttpSessionBindingListener接口后，只要有对象加入Session范围或从Session范围中移除时，容器会分别自动调用下面两个方法：
+valueBound(HttpSessionBindingEvent e)
+valueUnbound(HttpSessionBindingEvent e)
+HttpSessionBindingListener接口是唯一不需要在web.xml中设定的Listener，只监听自己是否从Session对象中加入或者移除
+
+
+HttpSessionAttributeListener使用的事件与HttpSessionBindingListener使用的事件相同： HttpSessionBindingEvent
+HttpSessionAttributeListener与HttpSessionBindingListener的不同在于：
+前者监听Web站点所有Session范围的变化
+后者只监听Session范围内实现了HttpSessionBindingListener接口的对象的创建与销毁
+
+
+
+
+与ServletRequest相关监听器
+Listener接口：ServletRequestListener     Event类：ServletRequestEvent
+Listener接口：ServletRequestAttributeListener     Event类：ServletRequestAttributeEvent
