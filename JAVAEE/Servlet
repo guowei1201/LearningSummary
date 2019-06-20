@@ -1,3 +1,6 @@
+Servlet
+======
+
 <servlet>
   <servlet-name>Hello</servlet-name>  --别名
   <servlet-class>xx.xx.Hello</servlet-class> --Servlet类文件
@@ -52,6 +55,14 @@ response.sendRedirect("targetURL");
 Attribute参数
   请求转发可共享参数
   请求重定向不可共享参数
+ 
+ 
+Servlet什么时候实例化
+<load-on-startup>节点进行设置
+当值为0或者大于0时，表示容器在应用启动时就加载这个servlet，当是一个负数时或者没有指定时，指示该servlet被选择时才加载。
+
+
+e
 
 
 
