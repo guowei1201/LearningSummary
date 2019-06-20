@@ -1,0 +1,143 @@
+Class：类的实例表示正在运行的 Java 应用程序中的类和接口
+Field：提供有关类或接口的属性的信息，以及对它的动态访问权限
+Constructor：提供关于类的单个构造方法的信息以及对它的访问权限
+Method：提供关于类或接口上单独某个方法的信息
+
+
+Class：表示正在运行的 Java 应用程序中的类和接口。
+Field：提供有关类或接口的属性的信息，以及对它的动态访问权限。某类型中的一个属性在方法区被表示为一个Field类型的对象，要想获得一个类型所有的属性对应的
+Field对象需要通过Class对象的getFields()方法，返回值是一个Field数组，其中每一个元素代表类型中的一个属性。
+Constructor：提供关于类的单个构造方法的信息以及对它的访问权限。某类型中定义的一个构造方法在方法区被表示为一个Constructor类型的对象，要想获得一个类型
+所有的构造方法对应的Constructor对象需要通过Class对象的getConstructors()方法，返回值是一个Constructor数组，其中每一个元素代表类型中的一个构造方法。
+Method：提供关于类或接口上单独某个方法的信息。某类型中定义的一个方法在方法区被表示为一个Method类型对象，要想获得一个类型所有的方法对应的Method对象需
+要通过Class对象的getMethods()方法，返回值是一个Method数组，其中每一元代表类型中定义的一个方法。
+
+package lww.net.onest;
+
+public class Student {
+	private int sNo;
+	private String sName;
+	private Student() {
+		super();
+	}
+	protected Student(int sNo) {
+		super();
+		this.sNo = sNo;
+	}
+	public Student(int sNo, String sName) {
+		super();
+		this.sNo = sNo;
+		this.sName = sName;
+	}
+	public int getsNo() {
+		return sNo;
+	}
+	public void setsNo(int sNo) {
+		this.sNo = sNo;
+	}
+	public String getsName() {
+		return sName;
+	}
+	public void setsName(String sName) {
+		this.sName = sName;
+	}
+	@Override
+	public String toString() {
+		return "Student [sNo=" + sNo + ", sName=" + sName + "]";
+	}
+}
+
+
+
+package lww.net.onest;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
+public class Test {
+
+	public static void main(String[] args) {
+		Student stu = new Student(1001, "Tom");
+		
+		//根据对象获取其所属的类
+//		Class className = Student.class;
+		//根据对象的getClass()方法
+		Class className = stu.getClass();
+		try {
+			Class className1 = 
+					Class.forName("lww.net.onest.Student");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//获取对象所属类中所有的属性
+		Field[] fields = className.getDeclaredFields();
+		System.out.println(Arrays.asList(fields));
+		for (Field field : fields) {
+			//获取属性名称
+			String fName = field.getName();
+			//获取属性类型
+			Class fType = field.getType();
+			System.out.println(fName+":"+fType);
+		}
+		//获取所有的构造方法
+		Constructor[] constructors = 
+				className.getConstructors();//获取公有的
+		System.out.println("公有的构造方法：" + 
+				Arrays.asList(constructors));
+		Constructor[] constructorAll = 
+				className.getDeclaredConstructors();//获取所有的
+		System.out.println("所有的构造方法" +
+				Arrays.asList(constructorAll));
+		//获取所有的方法
+		Method[] methods = 
+				className.getDeclaredMethods();
+		System.out.println("所有的方法：" + 
+				Arrays.asList(methods));
+		
+		try {
+			//根据反射得到的类的信息重新构造新的对象
+			Constructor con = 
+					className.getDeclaredConstructor(int.class, String.class);
+			//暴力破除私有访问权限限制
+			con.setAccessible(true);
+			Object obj = con.newInstance(1003, "LL");
+			System.out.println(obj.toString());
+			//访问私有属性
+			Field sNo = className.getDeclaredField("sNo");
+			sNo.setAccessible(true);
+			sNo.set(obj, 1002);
+			//访问方法
+			Method setName = className.getDeclaredMethod("setsName", String.class);
+			setName.invoke(obj, "Lucy");
+			System.out.println("创建的对象：" + obj.toString());
+		
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}
+
