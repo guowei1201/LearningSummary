@@ -1,0 +1,38 @@
+过滤器：是一个用于拦截在数据源和数据目的地之间消息的一个对象
+
+
+功能
+分析请求，将请求发送给指定的资源或自己创建一个响应返回
+在请求到达服务器端前处理请求，设置请求信息，将请求封装成符合规则的对象
+在响应到达客户端前处理响应，将响应封装成符合规则的对象
+
+过滤器处理请求采取以下3种行动之一
+过滤器自身产生一个响应，返回给客户端
+把请求转发给过滤器链中的下一个过滤器，如果是最后一个过滤器则将请求转发给请求指定资源
+把请求转发到另一资源
+
+<filter>
+  <filter-name>CharseFilter</filter-name> 注册过滤器
+  <filter-class>net.onest.CharseFilter</filter-class>
+    <init-param>
+      <param-name>encodeType</param-name>
+      <param-value>GB2312</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+  <filter-name>CharseFilter</filter-name> 
+  <url-pattern>/MyServlet</url-pattern>  配置拦截虚拟路径
+</filter-mapping>
+
+
+public void doFilter(){
+     业务逻辑
+     chain.doFilter(request, response);
+
+}
+过滤器链顺序
+初始化顺序：web.xml中配置的倒序
+chain.doFilter()之前的顺序（到达请求资源前的拦截顺序）：web.xml中配置的正序
+chain.doFilter()之后的顺序（由请求资源返回后的顺序）：web.xml中配置的倒序
+
+
