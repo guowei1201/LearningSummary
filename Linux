@@ -45,7 +45,9 @@ ln  -s a  ay 软链接
 
 
 6.IO重定向&管道
->2>以及其他重定向使用
+>    2>以及其他重定向使用
+echo abc > a输出重定向
+echo abc 2> a  错误输出重定向
 
 ps -e |grep ssh命令的执行过程 
 
@@ -59,16 +61,207 @@ ps -e |grep ssh命令的执行过程
 
 
 9.包管理
-apt update 
-apt upgrade
+apt update  升级安装包
+apt upgrade  进行安装包的更新
 apt install 
 apt autoremove
 
 
+重启系统
+shutdown -r now
+
+
+常用命令总结
+#切换工作目录
+cd [目录名称]
+
+#在最近的两个目录之间切换
+cd -
+
+#显示当前工作目录
+pwd
+
+#显示目录内容，不带参数显示当前目录
+ls [目录名称]
+
+#显示权限，所属用户，用户组，名称等信息
+ls -l [目录名称]
+
+#按照合适的单位显示文件大小
+ls -sh [目录名称]
+
+#显示所有文件
+ls -a [目录名称]
+
+#递归显示目录
+ls -R
+
+#多个选项结合使用
+ls -shRa /usr/share
+
+#复制文件
+cp [源文件] [目标文件]
+
+#复制目录
+cp -R [源目录] [目标路径]
+
+#移动文件
+mv [源文件] [目标路径]
+
+#重命名：在当前目录移动
+mv [源文件名称] [新名称]
+
+#创建目录
+mkdir [目录名称]
+
+#如果父级目录不存在则自动创建
+mkdir -p a/b/c
+
+#删除空目录
+rmdir [目录名称]
+
+#强制删除目录所有
+rm -rf [目录名称]
+
+#删除文件
+rm [文件名称]
+
+
+#显示所有进程
+ps -e
+
+
+#按照BSD风格显示
+ps aux
+
+#按列显示：用户，PID（进程ID），PPID（父进程ID），命令，参数
+ps -e -o user,pid,ppid,comm,args
+
+#搜索进程
+pgrep -l [名称关键词]
+
+#搜索进程
+ps -e | grep [名称关键词]
+
+
+#终止进程
+kill [PID]
+
+#强制终止进程
+kill -9 [PID]
+
+#查看当前用户属于哪些组
+groups
+
+#查看某一用户属于哪些组
+groups [用户名]
+
+#添加用户
+adduser [用户名]
+
+#添加用户并指定分组
+adduser [用户名] --ingroup [用户组名称]
+
+#删除用户
+deluser [用户名]
+
+#删除用户，并删除主目录
+deluser --remove-home [用户名]
+
+#创建用户组
+addgroup [用户组名称]
+
+#删除用户组
+delgroup [用户组名称]
+
+#设置当前用户的密码
+passwd
+
+#设置其他用户的密码
+passwd [用户名]
+
+
+#切换用户
+su 
+
+#显示文件权限
+ls -l [文件名称]
+
+#设置文件权限
+chmod [MODE] [文件]...
+
+#例：设置目录a权限：rwxr-xr-x
+chmod 755 a/ 或者 chmod u=rwx,g=rx,o=rx a/
+
+#例：设置目录a和所有子目录/文件的权限为：755
+chmod 755 -R a/
+
+#更改所属用户和用户组
+chown oklinux:master a/
+
+#只修改所属用户
+chown oklinux: a/
+
+#只修改分组
+chown :master a/
+
+#递归操作
+chown -R oklinux:master a/
+
+
+IO重定向
+IO重定向是把标准输入、标准输出、标准错误输出关联到其他文件，而不是默认的设备文件，默认情况，标准输入从键盘获取输入，标准输出、标准错误输出关联到屏幕的设备文件。
+
+
+#获取/etc/group文件内容并保存到 tmp/group。
+#cat是输出文件内容的命令，而 > 在shell中表示输出重定向。
+cat /etc/group > tmp/group
+
+#在/etc目录搜索含有PATH的行，
+#并把结果通过输出重定向保存到tmp/search_tmp文件
+#错误信息通过错误输出重定向到/dev/null
+#这个是黑洞文件，所有数据都消失。
+
+grep -R 'PATH' /etc/ > tmp/search_buf 2> /dev/null
+
+# 全盘查找名称含有gnome的文件，把结果通过重定向保存到文件 tmp/findbuf
+# 错误信息通过错误输出重定向到/dev/null
+find /  -iname *gnome* > tmp/findbuf 2> /dev/null
 
 
 
+#显示内建命令帮助信息并分页查看
+help test | less
+
+#统计文件行数，并忽略空行
+cat [文件名称] | grep '^$' | wc -l
+
+#显示IP地址
+ip addr 或 ip address 或 ip a
+
+#查看端口占用
+ss -utlp
+
+#Ubuntu18.04应用修改后的网络配置
+netplan apply
+
+#检测链路是否连接
+ping [地址/域名]
 
 
+#显示时间
+date
+
+#延迟n秒
+sleep [N]
+
+#回显字符
+echo [字符串]
+
+#解压zip文件
+unzip [文件名]
+
+#解压gzip,bzip等文件（以.gz .bz结尾的文件）
+tar -xf [文件名]
 
 
