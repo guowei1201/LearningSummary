@@ -1,1 +1,39 @@
+    Android是Google公司和开放手机联盟领导及开发的基于Linux平台的、开源的智能操作系统。Android平台由操作系统、中间件、用户界面
+和应用软件组成。
+
+
+
+Android的软件结构的几个层次
+  Linux内核层相关驱动，C
+  核心类库（Libaries）和运行时环境（Runtime），C\C++
+  应用程序框架（Application Framework），Java
+  应用程序（Application），Java
+
+public class HelloAndroid extends AppCompatActivity {
+    /** Called when the activity is first created. */
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+
+
+res：目录中存储工程的所有资源
+    drawable：图片资源
+
+    layout：布局资源
+
+    mipmap：图片资源
+
+    values：常量配置资源
+      colors：颜色
+      dimems：距离，长度
+      strings：字符常量
+      sytles：主题，样式
+
+Android程序中最重要的四个组成部分，包括Activity、Service、BroadcastReceiver和ContentProvider
+
+
 
