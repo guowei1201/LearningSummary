@@ -1,1 +1,74 @@
+Linux重点
+
+
+1.
+Linux由Linus Torvalds在1991年开发，全称GNU/Linux
+本课程发行版本 Ubuntu 18.04
+
+2.基本目录结构
+保存用户信息的文件 /etc/passwd
+保存用户组信息的文件： /etc/group
+保存用户密码的文件： /etc/shadow
+
+3.Shell
+内建命令(help)     外部命令（man）两种
+shell常见环境变量：PWD、PATH、HOME。
+知道使用echo输出环境变量的值
+Linux上运行命令的程序被称为shell，当前被使用最多也是默认的shell是 bash 。shell执行命令的具体过程：
+课件流程中详情
+
+4.常用命令：
+最常用的命令：cd , ls
+ls -a  /x 所有文件
+ls -sh /x 文件大小 文件
+ls -l  /x 显示文件权限 用户 用户组
+
+umask 权限掩码
+
+
+
+
+
+
+
+5.文件&用户
+chmod 更改文件权限                  chmod 754 a   chmod u=rwx,g=rw,o=r a
+chown 更改文件所属用户和用户组       sudo chown  用户：用户组 a
+touch 创建空文件
+mkdir 创建目录
+rmdir 删除空目录
+rm -rf可以删除非空目录
+
+ln : 硬链接 软链接（符号链接）
+ln  a ax 给a创建一个硬链接
+ln  -s a  ay 软链接
+
+
+6.IO重定向&管道
+>2>以及其他重定向使用
+
+ps -e |grep ssh命令的执行过程 
+
+7.进程管理
+基本命令，重点在ps 和 kill
+后台任务： jobs , fg, bg
+
+
+8.网络基础命令
+查看ip地址： ip address  或 ip addr 或 ip a
+
+
+9.包管理
+apt update 
+apt upgrade
+apt install 
+apt autoremove
+
+
+
+
+
+
+
+
 
