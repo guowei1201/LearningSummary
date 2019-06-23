@@ -9,9 +9,43 @@
 Listener接口：ServletContextListener    Event类：ServlerContextEvent
 Listener接口：ServletContextAttributeListener     Event类：ServletContextAttributeEvent
 
+
+{
+  contextInitialized(ServletContextEvent e)
+  contextDestroyed(ServetContextEvent e)
+
+    ServletContextEvent的主要方法：
+    getServletContext()
+}
+
+{
+
+  attributeAdded(ServletContextAttributeEvent e)
+  attributeReplaced(ServletContextAttributeEvent  e)
+  attributeRemoved(ServletContextAttributeEvent  e)
+
+    ServletContextAttributeEvent的主要方法
+    getName()
+    getValue()
+    attributeReplaced()方法中，getName()与getValue()是取之前的值
+}
+
+
+
+
+
+
+
+
+
+
 与HttpSession有关：
-Listener接口：HttpSessionListener    Event类：HttpSessionEvent
+Listener接口：HttpSessionListener    Event类：HttpSessionEvent (主要方法getSession())
 Listener接口：HttpSessionAttributeListener    Event类：HttpSessionBindingEvent
+{
+HttpSessionListener监听Session对象的创建与销毁，当有Session对象产生或销毁时，
+会自动调用sessionCreated()或sessionDestroyed()两个方法
+}
 
 实现HttpSessionBindingListener接口后，只要有对象加入Session范围或从Session范围中移除时，容器会分别自动调用下面两个方法：
 valueBound(HttpSessionBindingEvent e)
@@ -27,6 +61,36 @@ HttpSessionAttributeListener与HttpSessionBindingListener的不同在于：
 
 
 
+
+
 与ServletRequest相关监听器
 Listener接口：ServletRequestListener     Event类：ServletRequestEvent
 Listener接口：ServletRequestAttributeListener     Event类：ServletRequestAttributeEvent
+
+{
+  requestInitialized(ServletContextEvent e)
+  requestDestroyed(ServetContextEvent e)
+  
+  ServletRequestEvent的主要方法：
+    getServletContext()
+    getServletRequest()
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
