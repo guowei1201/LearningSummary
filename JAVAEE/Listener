@@ -28,6 +28,22 @@ Listener接口：ServletContextAttributeListener     Event类：ServletContextAt
     getName()
     getValue()
     attributeReplaced()方法中，getName()与getValue()是取之前的值
+    
+    ***************************************************************************
+     public void attributeReplaced(ServletContextAttributeEvent scae)  { 
+    	System.out.println("修改了全局参数");
+        //获取参数的名称
+        String name = scae.getName();
+        //获取参数的原来的值
+        String value = (String) scae.getValue();
+        System.out.println("修改的全局参数："
+       		 + name + "=" + value);
+        ServletContext context = scae.getServletContext();
+        String newValue = (String) 
+        		context.getAttribute(name);
+        System.out.println("修改后的新值：" + newValue);
+    }
+    ************************************************************************************
 }
 
 
