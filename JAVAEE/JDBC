@@ -1,1 +1,66 @@
+JDBC数据库连接技术
+        加载驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        
+        与数据库建立连接
+        String url = "jdbc:mysql://127.0.0.1:3306/em?Unicode = true&characterEncoding = UTF-8"
+        Connection conn = DriverManager.getConnection(url,"root","");
+        
+        发送sql语句，并得到返回结果
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from emploees");
+        
+        处理返回结果
+        while(rs.next()){
+          System.out.println(rs.getString("name"));
+        }
+        conn.close();
+        
+        
+        
+        PreparedStatement对象
+        {
+        1.创建PreparedStatement对象
+          PreparedStatement pstmt  = conn.prepareStatement("Update dog set health = ? ,love = ? , where id = ?");
+         
+         2.设置每个输入参数的值
+         pstmt.setInt(1,80);
+         pstmt.setInt(2,15);
+         pstmt.setString(3,"xiaohua");
+         
+         pstmt.executeUpdate();
+        
+        
+        
+        }
+        
+    
+ 对数据库操作的封装
+         public class ConnectionManager{
+                public static Connection getConnection(){
+                      Connection connection = null;
+                      Class.forName("com.mysql.jdbc.Driver");
+                      String url = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8";
+                      conn  = DriverManager.getConnection(url, "admin", "");      
+                      return  connection;
+                  }
+           }
+
+                public class UserDao {
+                  ConnectionManager cm = new ConnectionManager();
+                  public List<User> selectAll(){
+                        List<User> list = new ArrayList<User>();
+                        Connection conn = cm.getConnection();
+                        Statement stmt = conn.createStatement();
+                        ResultSet rs = stmt.executeQuery("select * from users");
+                        while (rs.next()) {
+                          User u = new User();
+                          //设置user的值
+                          list.add(u);
+                        }
+                        //....
+                        return list;
+                  }
+                }
+
 
