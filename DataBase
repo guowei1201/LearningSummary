@@ -1,1 +1,37 @@
+数据库恢复技术
+1.事务 transaction
+commit  ROLLBACK
 
+****************************************************************
+DBMS将理解为   3  个事务：（隐式）
+Select * from student
+
+Update student
+Set sdept='IS'
+Where sno='201215121'
+
+Update student
+Set sdept='CS'
+Where sno='201215125'
+****************************************************************
+DBMS将理解为   2 个事务：（显式）
+Select * from student
+Begin transaction
+    Update student
+    Set sdept='IS'
+    Where sno='201215121'
+
+    Update student
+    Set sdept='CS'
+    Where sno='201215125'
+COMMIT
+****************************************************************
+
+
+
+2.事务的ACID特性
+原子性               一致性               隔离性             持久性
+Atomicity          Consistency         Isolation           Durability
+
+
+3.故障种类
