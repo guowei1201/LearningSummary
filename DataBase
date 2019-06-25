@@ -54,103 +54,100 @@ FROM     <表名或视图名> [别名] [ ，<表名或视图名> [别名]] …
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---------------------------------------------------------------------------------------------------------------------------
+存储过程
+*
+create proc deletestudent
+@s varchar
+As
+Begin 
+   Delete from graduation where 学号 = @s
+end
+
+
+**
+create procedure myproc
+@xuehao char(9)
+@average int out
+as
+begin 
+   select @average = avg(grade)
+   from sc
+   where sno = @xuehao
+end
+declare @savg  int
+set @savg = 0
+exec myproc "2017012003",@savg out
+print @savg
+
+//////////////////////////////////////////////////////////////////////////////////////
+函数
+   create function FunBook(@name varchar)
+   Returns table
+   AS
+      return Select 图书.*
+      from 图书，图书类别
+      where 图书.类别代号 = 图书类别.类别代号 and 类别名 = @name
+
+**
+   create function FunBookSale (@bookno varchar)
+   returns  int
+   as
+      begin
+       return  select  sum（数量） from 订单 where 书号=@bookno
+      end
+ ***
+ CREATE FUNCTION whichgeneration(@birthday datetime)
+   RETURNS VARCHAR(12)
+   AS
+   BEGIN
+      if year(@birthday)<1980
+      return “too old”;
+      else if year(@birthday)<1990
+      return “80s”;
+      else 
+          return “90s”;
+   END
+ //////////////////////////////////////////////////////////////////////////////////////
+游标
+declare @salary int ,@cno int
+--声明游标
+declare salary_cursor cursor 
+for 
+   select 工资，员工编号
+   from 员工工资表
+for read only 
+open salary_cursor
+fetch next from salary_cursor
+into @salary ,@cno
+--循环处理
+while @@FETCH_STATUS = 0
+begin
+   if @salary > 3000
+   begin 
+   update 员工工资表 set 个人所得税 = （@salary - 3000）*0.1 where 员工编号 = @cno
+   end
+   fetch next from salary_cursor into @salary ,@cno
+ end
+ --关闭游标
+ close salary_cursor
+ deallocate salary_cursor
+ ****************************************************************************************
+
+触发器
+CREATE TRIGGER TrInsUpd
+ON  图书 
+BEFORE INSERT,UPDATE
+AS 
+BEGIN
+   DECLARE @dh int;
+	SELECT @dh=inserted.类别代号 from inserted
+	IF (not exists(select 类别代号 from 图书类别 where 类别代号=@dh)) 
+	BEGIN
+	   RAISERROR (‘类别编号不存在', 16, 1)
+	   ROLLBACK TRANSACTION
+	END 
+END
 
 
 
