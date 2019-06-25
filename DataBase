@@ -32,7 +32,25 @@ f.数据库运行和维护阶段
 9.关系代数运算中，五种基本运算为：
 选择、投影、并、差、笛卡尔积
 
+10. 
+SELECT  count(Sname)  学生人数
+FROM Student；（重复的也算，NULL不算）
 
+SELECT  count(*)（以元组个数记数，NULL也算）
+
+11.集合操作
+并操作(UNION)
+交操作(INTERSECT)
+差操作(EXCEPT)
+
+12
+SELECT [ALL|DISTINCT]  
+   <目标列表达式> [别名] [ ，<目标列表达式> [别名]] …
+FROM     <表名或视图名> [别名] [ ，<表名或视图名> [别名]] …
+ [WHERE <条件表达式>]
+ [GROUP BY <列名1>[，<列名1’>] ...
+[HAVING     <条件表达式>]]
+[ORDER BY <列名2> [ASC|DESC]  [，<列名2’> [ASC|DESC] ] …  ]；
 
 
 
