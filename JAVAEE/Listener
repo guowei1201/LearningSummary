@@ -6,7 +6,7 @@
 监听器是一个实现特定接口的普通Java程序,这个程序专门用于监听另一个Java对象的方法调用或属性改变，当被监听对象发生上述事件后，监听器某个方法立即被执行
 
 与ServletContext有关：
-Listener接口：ServletContextListener    Event类：ServlerContextEvent
+Listener接口：ServletContextListener    Event类：ServletContextEvent
 Listener接口：ServletContextAttributeListener     Event类：ServletContextAttributeEvent
 
 
