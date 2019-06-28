@@ -52,7 +52,7 @@
 	计数器，从1-100之间技术，每隔1秒计数一次:
 	
 	public class MyThread extends Thread{
-		public void run{
+		public void run（）{
 			for(int i = 0, i<100 ;i++){
 				System.out.print(i);
 				try{
