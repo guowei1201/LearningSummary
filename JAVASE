@@ -19,4 +19,7 @@
 https://zhuanlan.zhihu.com/p/32673532
 
 
+6.数据类型
+8种内置数据类型：byte(8)  short(16)    int(32位)   long(64)   float(单精度32) double(双精度64位) boolean char(16位Unicode)  
+对象，数组都是引用数据类型默认值都为null
 
