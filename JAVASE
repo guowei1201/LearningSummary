@@ -1,1 +1,22 @@
 
+1.JAVA标识符
+(A-Z a-z $ _ )开始   首字母之后可以有数字和其他字符  关键字不能做标识符
+
+2.修饰符
+访问控制修饰符：default public protected private
+非访问控制修饰符：final abstract static synchronized
+
+3.JAVA变量
+局部变量
+类变量（静态变量）
+成员变量（非静态变量）
+详细：https://www.cnblogs.com/oraser/p/6428286.html
+
+4.JAVA数组
+数组是存储在堆上的对象，可以保存多个同类型变量。
+
+5.编译和解释
+https://zhuanlan.zhihu.com/p/32673532
+
+
+
